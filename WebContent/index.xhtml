@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>JSF JPA</title>
+</h:head>
+<h:body>
+	<h:form id="form">
+		<p:growl id="msgs" showDetail="true" />
+		<p:dataTable id="dataTable" value="#{rehberControler.rehbers}"
+			var="kisi" editable="true" rowKey="#{kisi.id}"
+			selection="#{rehberControler.selectedKisi}" selectionMode="single">
+
+			<p:ajax event="rowEdit" listener="#{rehberControler.onRowEdit}"
+				update=":form:msgs" />
+			<p:ajax event="rowEditCancel"
+				listener="#{rehberControler.onRowCancel}" update=":form:msgs" />
+
+			<p:column headerText="AD"  sortBy="#{kisi.ad}" filterBy="#{kisi.ad}">
+				<p:cellEditor>
+					<f:facet name="input">
+						<p:inputText value="#{kisi.ad}" />
+					</f:facet>
+					<f:facet name="output">
+						<h:outputText value="#{kisi.ad}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="SOYAD" sortBy="#{kisi.soyad}" filterBy="#{kisi.soyad}">
+				<p:cellEditor>
+					<f:facet name="input">
+						<p:inputText value="#{kisi.soyad}" />
+					</f:facet>
+					<f:facet name="output">
+						<h:outputText value="#{kisi.soyad}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="MAİL" sortBy="#{kisi.mail}" filterBy="#{kisi.mail}">
+				<p:cellEditor>
+					<f:facet name="input">
+						<p:inputText value="#{kisi.mail}" />
+					</f:facet>
+					<f:facet name="output">
+						<h:outputText value="#{kisi.mail}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="TEL" sortBy="#{kisi.tel}" filterBy="#{kisi.tel}">
+				<p:cellEditor>
+					<f:facet name="input">
+						<p:inputText value="#{kisi.tel}" />
+					</f:facet>
+					<f:facet name="output">
+						<h:outputText value="#{kisi.tel}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+		<h:commandButton type="button" value="Kişi Ekle"
+			onclick="PF('kisiEkle').show();" />
+
+		<p:dialog header="Kişi Ekle" widgetVar="kisiEkle" minHeight="40">
+			<p:panelGrid columns="2">
+				<h:outputLabel value="Ad" />
+				<p:inputText value="#{rehberControler.rehber.ad}" />
+				<h:outputLabel value="Soyad" />
+				<p:inputText value="#{rehberControler.rehber.soyad}" />
+				<h:outputLabel value="Mail" />
+				<p:inputText value="#{rehberControler.rehber.mail}" id="email"
+					required="true" label="email" requiredMessage="Email giriniz.."
+					validatorMessage="uygun mail formatı giriniz..">
+					<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+				</p:inputText>
+				<p:watermark for="email" value="Email Address *" />
+				<p:message for="email" />
+
+				<h:outputLabel value="Tel" />
+				<p:inputText value="#{rehberControler.rehber.tel}" />
+			</p:panelGrid>
+			<p:commandButton value="Kaydet" action="#{rehberControler.addRehber}" update=":form:dataTable">
+				<p:resetInput target=":form:dataTable" />
+				<f:ajax execute="@form" render="form:dataTable" />
+			</p:commandButton>
+		</p:dialog>
+
+		<p:contextMenu for="dataTable">
+			<p:menuitem value="View" update="rehberDetail" icon="ui-icon-search"
+				oncomplete="PF('rehberDialog').show()" />
+			<p:menuitem value="Delete" update="dataTable" icon="ui-icon-close"
+				actionListener="#{rehberControler.deleteRehber}" />
+		</p:contextMenu>
+
+		<p:dialog header="Kişi Görüntüleniyor" widgetVar="rehberDialog"
+			modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="rehberDetail" style="text-align:center;">
+				<p:panelGrid columns="2"
+					rendered="#{not empty rehberControler.selectedKisi}"
+					columnClasses="label,value">
+					<h:outputText value="Ad" />
+					<h:outputText value="#{rehberControler.selectedKisi.ad}" />
+
+					<h:outputText value="Soyad" />
+					<h:outputText value="#{rehberControler.selectedKisi.soyad}" />
+
+					<h:outputText value="Mail" />
+					<h:outputText value="#{rehberControler.selectedKisi.mail}" />
+
+					<h:outputText value="Tel" />
+					<h:outputText value="#{rehberControler.selectedKisi.tel}" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+
+
+	</h:form>
+
+</h:body>
+</html>
