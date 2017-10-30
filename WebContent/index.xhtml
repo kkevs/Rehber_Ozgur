@@ -21,7 +21,7 @@
 			<p:ajax event="rowEditCancel"
 				listener="#{rehberControler.onRowCancel}" update=":form:msgs" />
 
-			<p:column headerText="AD"  sortBy="#{kisi.ad}" filterBy="#{kisi.ad}">
+			<p:column headerText="AD" sortBy="#{kisi.ad}" filterBy="#{kisi.ad}">
 				<p:cellEditor>
 					<f:facet name="input">
 						<p:inputText value="#{kisi.ad}" />
@@ -32,7 +32,8 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="SOYAD" sortBy="#{kisi.soyad}" filterBy="#{kisi.soyad}">
+			<p:column headerText="SOYAD" sortBy="#{kisi.soyad}"
+				filterBy="#{kisi.soyad}">
 				<p:cellEditor>
 					<f:facet name="input">
 						<p:inputText value="#{kisi.soyad}" />
@@ -43,7 +44,7 @@
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="MAİL" sortBy="#{kisi.mail}" filterBy="#{kisi.mail}">
+			<p:column headerText="MAİL">
 				<p:cellEditor>
 					<f:facet name="input">
 						<p:inputText value="#{kisi.mail}" />
@@ -53,7 +54,7 @@
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
-			<p:column headerText="TEL" sortBy="#{kisi.tel}" filterBy="#{kisi.tel}">
+			<p:column headerText="TEL">
 				<p:cellEditor>
 					<f:facet name="input">
 						<p:inputText value="#{kisi.tel}" />
@@ -67,15 +68,22 @@
 				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
+		
 		<h:commandButton type="button" value="Kişi Ekle"
 			onclick="PF('kisiEkle').show();" />
 
-		<p:dialog header="Kişi Ekle" widgetVar="kisiEkle" minHeight="40">
-			<p:panelGrid columns="2">
+		<p:dialog header="Kişi Ekle" widgetVar="kisiEkle">
+			<p:panel id="panel">
 				<h:outputLabel value="Ad" />
-				<p:inputText value="#{rehberControler.rehber.ad}" />
+				<p:inputText id="ad" value="#{rehberControler.rehber.ad}" required="true" requiredMessage="Email giriniz..">
+					<f:validateLength minimum="1" />
+				</p:inputText>
+				<p:message for="ad" display="icon" />
 				<h:outputLabel value="Soyad" />
-				<p:inputText value="#{rehberControler.rehber.soyad}" />
+				<p:inputText id="soyad" value="#{rehberControler.rehber.soyad}" required="true" requiredMessage="Email giriniz..">
+					<f:validateLength minimum="1" />
+				</p:inputText>
+			<p:message for="soyad" display="icon" />
 				<h:outputLabel value="Mail" />
 				<p:inputText value="#{rehberControler.rehber.mail}" id="email"
 					required="true" label="email" requiredMessage="Email giriniz.."
@@ -87,9 +95,12 @@
 				<p:message for="email" />
 
 				<h:outputLabel value="Tel" />
-				<p:inputText value="#{rehberControler.rehber.tel}" />
-			</p:panelGrid>
-			<p:commandButton value="Kaydet" action="#{rehberControler.addRehber}" update=":form:dataTable">
+				<p:inputText value="#{rehberControler.rehber.tel}">
+					<f:validateLength minimum="1" />
+				</p:inputText>
+			</p:panel>
+			<p:commandButton value="Kaydet" action="#{rehberControler.addRehber}"
+				update=":form:panel">
 				<p:resetInput target=":form:dataTable" />
 				<f:ajax execute="@form" render="form:dataTable" />
 			</p:commandButton>
