@@ -9,12 +9,12 @@ import javax.persistence.Transient;
 @Entity
 public class Rehber {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int id;
 	String ad;
 	String soyad;
 	String mail;
-	int tel;
+	String tel;
 	@Transient
 	private boolean editable;
 
@@ -29,7 +29,7 @@ public class Rehber {
 	public Rehber() {
 	}
 
-	public Rehber(String ad, String soyad, String mail, int tel) {
+	public Rehber(String ad, String soyad, String mail, String tel) {
 		this.ad = ad;
 		this.soyad = soyad;
 		this.mail = mail;
@@ -68,11 +68,11 @@ public class Rehber {
 		this.mail = mail;
 	}
 
-	public int getTel() {
+	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(int tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
 }

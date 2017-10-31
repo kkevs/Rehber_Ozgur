@@ -25,7 +25,7 @@ public class RehberController {
 		super();
 		rehbers = rehberDao.findAllRehber();
 	}
-
+	
 	public Rehber getRehber() {
 		return rehber;
 	}

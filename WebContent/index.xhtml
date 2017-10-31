@@ -57,7 +57,7 @@
 			<p:column headerText="TEL">
 				<p:cellEditor>
 					<f:facet name="input">
-						<p:inputText value="#{kisi.tel}" />
+						<p:inputTextarea value="#{kisi.tel}" />
 					</f:facet>
 					<f:facet name="output">
 						<h:outputText value="#{kisi.tel}" />
@@ -68,26 +68,38 @@
 				<p:rowEditor />
 			</p:column>
 		</p:dataTable>
-		
+
 		<h:commandButton type="button" value="Kişi Ekle"
 			onclick="PF('kisiEkle').show();" />
 
 		<p:dialog header="Kişi Ekle" widgetVar="kisiEkle">
 			<p:panel id="panel">
 				<h:outputLabel value="Ad" />
-				<p:inputText id="ad" value="#{rehberControler.rehber.ad}" required="true" requiredMessage="Email giriniz..">
+				<p:inputText id="ad" value="#{rehberControler.rehber.ad}"
+					required="true" requiredMessage="Email giriniz.."
+					validatorMessage="Sayı girilemez ve boş geçilemez">
 					<f:validateLength minimum="1" />
+					<f:validateRegex pattern="[a-zA-Z]+" />
 				</p:inputText>
 				<p:message for="ad" display="icon" />
+				
+				
 				<h:outputLabel value="Soyad" />
-				<p:inputText id="soyad" value="#{rehberControler.rehber.soyad}" required="true" requiredMessage="Email giriniz..">
+				<p:inputText id="soyad" value="#{rehberControler.rehber.soyad}"
+					required="true" requiredMessage="soyad giriniz.."
+					validatorMessage="Sayı girilemez ve boş geçilemez">
 					<f:validateLength minimum="1" />
+					<f:validateRegex pattern="[a-zA-Z]+" />
 				</p:inputText>
-			<p:message for="soyad" display="icon" />
+				<p:message for="soyad" display="icon" />
+				
+				
+				
 				<h:outputLabel value="Mail" />
 				<p:inputText value="#{rehberControler.rehber.mail}" id="email"
 					required="true" label="email" requiredMessage="Email giriniz.."
 					validatorMessage="uygun mail formatı giriniz..">
+					<f:validateLength minimum="1" />
 					<f:validateRegex
 						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 				</p:inputText>
@@ -95,15 +107,21 @@
 				<p:message for="email" />
 
 				<h:outputLabel value="Tel" />
-				<p:inputText value="#{rehberControler.rehber.tel}">
+				<p:inputTextarea value="#{rehberControler.rehber.tel}"
+					required="true" label="tel" requiredMessage="sayı giriniz.."
+					validatorMessage="sadece sayı">
 					<f:validateLength minimum="1" />
-				</p:inputText>
+					<f:validateRegex pattern="[0-9]+" />
+				</p:inputTextarea>
+
 			</p:panel>
+
 			<p:commandButton value="Kaydet" action="#{rehberControler.addRehber}"
 				update=":form:panel">
 				<p:resetInput target=":form:dataTable" />
 				<f:ajax execute="@form" render="form:dataTable" />
 			</p:commandButton>
+
 		</p:dialog>
 
 		<p:contextMenu for="dataTable">
@@ -130,6 +148,8 @@
 
 					<h:outputText value="Tel" />
 					<h:outputText value="#{rehberControler.selectedKisi.tel}" />
+
+
 				</p:panelGrid>
 			</p:outputPanel>
 		</p:dialog>

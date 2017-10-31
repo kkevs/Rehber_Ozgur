@@ -8,7 +8,7 @@ public class Test {
 
 		RehberDAOImpl daoImlp = new RehberDAOImpl();
 
-		Rehber rehber = new Rehber("husnu", "kose", "kkevs@gmail.com", 123);
+		Rehber rehber = new Rehber("husnu", "kose", "kkevs@gmail.com", "123");
 
 		daoImlp.insertRehber(rehber);
 	}
